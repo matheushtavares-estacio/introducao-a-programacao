@@ -1,91 +1,181 @@
 #include <stdio.h>
 
+// 1. FUNÇÕES
+
+// FUNÇÃO TORRE
+void moverTorre(int casasTorre, char direcaoTorre[]){
+    // 1. CASO BASE
+    if (casasTorre == 0){
+        return;
+    }
+
+    // 2. MOVIMENTO
+    printf("%s\n", direcaoTorre);
+
+    // 3. CASO RECURSIVO
+    moverTorre(casasTorre -1, direcaoTorre);
+}
+
+// FUNÇÃO BISPO
+void moverBispo(int casasBispo, char direcaoBispo1[], char direcaoBispo2[]){
+    // 1. CASO BASE
+    if (casasBispo == 0){
+        return;
+    }
+
+    // 2. MOVIMENTO
+    printf("DIAGONAL (%s + %s)\n", direcaoBispo1, direcaoBispo2);
+
+    // 3. CASO RECURSIVO
+    moverBispo(casasBispo -1, direcaoBispo1, direcaoBispo2);
+}
+
+// FUNÇÃO RAINHA
+void moverRainha(int movimentoRainha, int casasRainha, char direcaoRainha1[], char direcaoRainha2[]){
+    // CASO BASE
+    if (casasRainha == 0){
+        return;
+    }
+
+    // MOVIMENTO EM LINHA RETA:
+    if (movimentoRainha == 1){
+        printf("%s\n", direcaoRainha1);
+    }
+
+    // MOVIMENTO DIAGONAL
+    if (movimentoRainha == 2){
+        printf("DIAGONAL (%s + %s)\n", direcaoRainha1, direcaoRainha2);
+    }
+
+    // CASO RECURSIVO
+    moverRainha(movimentoRainha, casasRainha - 1, direcaoRainha1, direcaoRainha2);
+}
+
+// FUNÇÃO CAVALO
+void moverCavalo(int casasCavalo, char direcaoCavalo1[], char direcaoCavalo2[]){
+    // 1. CASO BASE
+    if (casasCavalo == 0){
+        return;
+    }
+
+    // 2. MOVIMENTOS
+    else if (casasCavalo > 1){
+    printf("%s\n", direcaoCavalo1);
+    }
+
+    else{
+        printf("%s\n", direcaoCavalo2);
+    }
+
+    // 3. CASO RECURSIVO;
+    moverCavalo(casasCavalo -1, direcaoCavalo1, direcaoCavalo2);
+}
+
+// 2. VARIÁVEIS
+int casasTorre, casasBispo, movimentoRainha, casasRainha, casasCavalo = 3, continuar = 1;
+char direcaoTorre[10], direcaoBispo1[10], direcaoBispo2[10], direcaoRainha1[10], direcaoRainha2[10], direcaoCavalo1[10], direcaoCavalo2[10];
+
+// 3. FUNÇÃO PRINCIPAL
 int main(){
-    // === CONTADORES ===
-    int iTorre = 1;
-    int iBispo = 1; 
-    int continuar = 1, quantidadeCasasH, quantidadeCasasV, opcaoVertical, opcaoHorizontal;
+    // MOVIMENTO TORRE
+    printf("\nDefina o número de casas que a Torre irá se mover:\n>> ");
+    scanf("%d", &casasTorre);
+    printf("\nDefina a direção que a Torre irá se mover:\n>> ");
+    scanf("%s", direcaoTorre);
+    printf("\nMovendo a Torre...\n");
+    moverTorre(casasTorre, direcaoTorre);
 
-    // === TORRE (While) ===
-    printf("\nJogador #1 está movendo a Torre...\n");
-    while (iTorre <= 5)
-    {
-        printf("DIREITA\n");
-        iTorre++;
-    }
+    // MOVIMENTO BISPO - RECURSIVIDADE
+    printf("\nDefina o número de casas que o Bispo irá se mover:\n>> ");
+    scanf("%d", &casasBispo);
+    printf("\nDefina a direção HORIZONTAL que o Bispo irá se mover:\n>> ");
+    scanf("%s", direcaoBispo1);
+    printf("\nDefina a direção VERTICAL que o Bispo irá se mover:\n>> ");
+    scanf("%s", direcaoBispo2);
+    printf("\nMovendo o Bispo...\n");
+    moverBispo(casasBispo, direcaoBispo1, direcaoBispo2);
 
-    // === TORRE ===
-    printf("\nJogador #1 está movendo o Bispo...\n");
-    do
-    {
-        printf("DIAGONAL (DIREITA + CIMA)\n");
-        iBispo++;
-    } while (iBispo <= 5);
- 
-    // === RAINHA ===
-    printf("\nO Jogador #1 está movendo a Rainha...\n");
-    for (int iRainha = 1; iRainha <= 8; iRainha++)
-    {
-        printf("ESQUERDA\n");
-    }
-
-    // === CAVALO - VERSÃO 1.0 (Loops aninhados) ===
-    printf("\nO Jogador #1 está movendo o Cavalo...\n");
-    for (int iCavalo = 1; iCavalo <= 1 ; iCavalo++)
-    {
-        for (int jCavalo = 1; jCavalo <= 2; jCavalo++)
-        {
-            printf("BAIXO\n");
-        }
-        printf("ESQUERDA\n");
-    }
-    
-    // === CAVALO - VERSÃO 2.0 (Menu interativo) ===
-    printf("\nO Jogador #1 está movendo o Cavalo...\n");
+    // MOVIMENTO BISPO - LOOPS ANINHADOS
 
     while (continuar != 0)
-    {
-        // === MENU INTERATIVO ===
-        printf("Defina o movimento HORIZONTAL:\n");
-        printf("[ 1 ] ESQUERDA\n");
-        printf("[ 2 ] DIREITA\n>> ");
-        scanf("%d", &opcaoHorizontal);
-
-        printf("Quantas casas irá se mover no sentido HORIZONTAL?\n");
-        printf("[ 1 ] 1 CASA\n");
-        printf("[ 2 ] 2 CASAS\n>> ");
-        scanf("%d", &quantidadeCasasH);
-
-        quantidadeCasasV = 3 - quantidadeCasasH;
-
-        printf("Defina o movimento VERTICAL:\n");
-        printf("[ 1 ] CIMA\n");
-        printf("[ 2 ] BAIXO\n>> ");
-        scanf("%d", &opcaoVertical);
-
-        if ((opcaoVertical == 1 || opcaoVertical == 2) && (opcaoHorizontal == 1 || opcaoHorizontal == 2) && (quantidadeCasasH == 1 || quantidadeCasasH == 2))
         {
-            for (int j = 1; j <= quantidadeCasasH; j++)
+        printf("\nDefina o número de casas que o Bispo irá se mover:\n>> ");
+        scanf("%d", &casasBispo);
+        printf("\nDefina a direção HORIZONTAL que o Bispo irá se mover:\n>> ");
+        scanf("%s", direcaoBispo1);
+        printf("\nDefina a direção VERTICAL que o Bispo irá se mover:\n>> ");
+        scanf("%s", direcaoBispo2);
+        printf("\nMovendo o Bispo...\n");
+        while (casasBispo != 0)
             {
-                opcaoHorizontal == 1? printf("ESQUERDA\n") : printf("DIREITA\n");
+                printf("DIAGONAL (%s + %s)\n", direcaoBispo1, direcaoBispo2);
+                casasBispo--;
             }
-            for (int i = 1; i <= quantidadeCasasV; i++)
-            {        
-                opcaoVertical == 1? printf("CIMA\n") : printf("BAIXO\n");
-            }
-        }
-        else{
-            printf("Entrada INVÁLIDA! Tente novamente...\n");
-        }
-
-        // === CONTINUAR ===
-        printf("Deseja continuar?\n");
-        printf("Digite qualquer número para continuar...\n");
-        printf("Digite '0' para parar...\n>> ");
+        printf("\nDESEJA CONTINUAR?\n");
+        printf("DIGITE 0 PARA PARAR...\n");
+        printf("DIGITE QUALQUER OUTRO NÚMERO PARA CONTINUAR...\n>> ");
         scanf("%d", &continuar);
     }
-    
-    printf("\nPrograma encerrado.\n");
 
+    // MOVIMENTO RAINHA
+    printf("\nDefina o movimento da Rainha:\n");
+    printf("[ 1 ] LINHA RETA\n");
+    printf("[ 2 ] DIAGONAL\n>> ");
+    scanf("%d", &movimentoRainha);
+
+    switch (movimentoRainha)
+    {
+    // LINHA RETA
+    case 1:
+        printf("\nDefina o número de casas que a Rainha irá se mover:\n>> ");
+        scanf("%d", &casasRainha);
+        printf("\nDefina a direção que a Rainha irá se mover:\n>> ");
+        scanf("%s", direcaoRainha1);
+        direcaoRainha2[0] = '\0';
+        printf("\nMovendo a Rainha...\n");
+        moverRainha(movimentoRainha, casasRainha, direcaoRainha1, direcaoRainha2);
+        break;
+    
+    // DIAGONAL
+    case 2:
+        printf("\nDefina o número de casas que a Rainha irá se mover:\n>> ");
+        scanf("%d", &casasRainha);
+        printf("\nDefina a direção HORIZONTAL que a Rainha irá se mover:\n>> ");
+        scanf("%s", direcaoRainha1);
+        printf("\nDefina a direção VERTICAL que a Rainha irá se mover:\n>> ");
+        scanf("%s", direcaoRainha2);
+        printf("\nMovendo a Rainha...\n");
+        moverRainha(movimentoRainha, casasRainha, direcaoRainha1, direcaoRainha2);
+        break;
+    
+    default:
+        printf("Entrada Inválida!\n");
+        break;
+    }
+
+    // MOVIMENTO CAVALO - RECURSIVIDADE
+    printf("\nDefina a direção que o Cavalo irá se mover DUAS casas:\n>> ");
+    scanf("%s", direcaoCavalo1);
+    printf("\nDefina a direção que o Cavalo irá se mover UMA casa:\n>> ");
+    scanf("%s", direcaoCavalo2);
+    printf("\nMovendo o Cavalo...\n");
+    moverCavalo(casasCavalo, direcaoCavalo1, direcaoCavalo2);
+
+    // MOVIMENTO CAVALO - LOOPS ANINHADOS
+    printf("\nDefina a direção que o Cavalo irá se mover DUAS casas:\n>> ");
+    scanf("%s", direcaoCavalo1);
+    printf("\nDefina a direção que o Cavalo irá se mover UMA casa:\n>> ");
+    scanf("%s", direcaoCavalo2);
+ 
+    printf("\nMovendo o Cavalo...\n");
+    for (int i = 1; i != 0; i--)
+    {
+        for (int j = 2; j != 0; j--)
+        {
+            printf("%s\n", direcaoCavalo1);
+        }
+        printf("%s\n", direcaoCavalo2);
+    }
+    
     return 0;
 }
